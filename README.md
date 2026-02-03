@@ -49,3 +49,4 @@ This repo includes an automated pipeline for generating, validating, and deployi
 - Require the `CI` status check to pass before merge.
 - Optionally disallow direct pushes to `main` to keep the deploy gate intact.
 
+CI_PR_TEST
