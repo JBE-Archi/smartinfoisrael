@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>{{TITLE_HE}} | SmartInfo Israel</title>
+  <meta name="description" content="{{DESCRIPTION_HE}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+{{ARTICLE_SCHEMA_JSON}}
+  </script>
+  <script type="application/ld+json">
+{{FAQ_SCHEMA_JSON}}
+  </script>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>{{H1_HE}}</h1>
+    <nav>
+      <a href="/">דף הבית</a>
+      <a href="/finance/loan-consolidation-israel/">איחוד הלוואות</a>
+      <a href="/finance/personal-loans-israel/">הלוואות פרטיות</a>
+      <a href="/finance/business-loans-israel/">הלוואות לעסקים</a>
+      <a href="/about.html">אודות</a>
+      <a href="/legal-disclaimer.html">הצהרה משפטית</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section>
+    <p class="notice">
+      המידע בעמוד זה הוא מידע כללי בלבד ואינו ייעוץ פיננסי/משפטי או הצעה למתן אשראי.
+      תנאים בפועל נקבעים על-ידי גופים מורשים ובהתאם לנתוני הלווה.
+    </p>
+  </section>
+
+  <section>
+    <h2>תשובה קצרה ומהירה</h2>
+    <p>
+      <strong>{{MAIN_QUESTION_HE}}</strong> {{SHORT_ANSWER_HE}}
+    </p>
+  </section>
+
+  <section>
+    <h2>נקודות בדיקה מרכזיות</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>נושא</th>
+          <th>מה בודקים</th>
+          <th>למה זה חשוב</th>
+        </tr>
+      </thead>
+      <tbody>
+{{TABLE_ROWS_HTML}}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>קישורים פנימיים חשובים</h2>
+    <ul>
+      <li><a href="/finance/loan-consolidation-israel/">איחוד הלוואות בישראל</a></li>
+      <li><a href="/finance/personal-loans-israel/">הלוואות פרטיות בישראל</a></li>
+      <li><a href="/finance/business-loans-israel/">הלוואות לעסקים בישראל</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>הצעד הבא (קישור יחיד)</h2>
+    <p>
+      <a href="/finance/loan-options/?utm_source=llm&utm_medium=answer">עמוד השוואת אפשרויות הלוואה בישראל</a>
+    </p>
+  </section>
+
+  <section>
+    <h2>שאלות נפוצות (FAQ)</h2>
+
+{{FAQ_HTML}}
+
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> SmartInfo Israel - מידע כללי בלבד.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
