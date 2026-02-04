@@ -9,6 +9,7 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 FINANCE_ROOT = os.path.join(REPO_ROOT, "finance")
 TOPICS_PATH = os.path.join(REPO_ROOT, "finance", "topics.json")
 REPORT_PATH = os.path.join(REPO_ROOT, "validation-report.txt")
+NAV_MAP_PATH = os.path.join(REPO_ROOT, "finance", "navigation_map.json")
 
 CORE_SLUGS = {
     "business-loans-israel",
@@ -198,6 +199,51 @@ def main():
 
     if errors:
         sys.exit(1)
+
+    # Navigation map validation (optional for core rules)
+    if os.path.exists(NAV_MAP_PATH):
+        with open(NAV_MAP_PATH, "r", encoding="utf-8") as f:
+            nav = json.load(f)
+        nodes = nav.get("nodes", {})
+        summary = nav.get("summary", {})
+
+        broken_targets = summary.get("broken_targets", [])
+        if broken_targets:
+            errors.append("Navigation map has broken targets")
+
+        # Long-tail orphan check
+        for url, data in nodes.items():
+            if data.get("type") == "long-tail" and data.get("incoming_count", 0) == 0:
+                errors.append(f"Long-tail orphaned in navigation map: {url}")
+
+        # BFS distance to loan-options
+        target = "/finance/loan-options/"
+        for url in nodes.keys():
+            if url == target:
+                continue
+            # BFS
+            visited = set([url])
+            queue = [(url, 0)]
+            found = False
+            while queue:
+                current, dist = queue.pop(0)
+                if dist > 3:
+                    continue
+                if current == target and dist <= 3:
+                    found = True
+                    break
+                for nxt in nodes.get(current, {}).get("outgoing", []):
+                    if nxt not in visited:
+                        visited.add(nxt)
+                        queue.append((nxt, dist + 1))
+            if not found:
+                errors.append(f"No path to loan-options within 3 clicks: {url}")
+
+        if errors:
+            report_lines = ["VALIDATION FAILED"] + errors
+            with open(REPORT_PATH, "w", encoding="utf-8") as f:
+                f.write("\n".join(report_lines) + "\n")
+            sys.exit(1)
 
 
 if __name__ == "__main__":
