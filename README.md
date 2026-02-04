@@ -50,3 +50,4 @@ This repo includes an automated pipeline for generating, validating, and deployi
 - Optionally disallow direct pushes to `main` to keep the deploy gate intact.
 
 CI_PR_TEST
+RULESET_REAL_FINAL
