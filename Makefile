@@ -2,6 +2,7 @@
 
 generate:
 	python3 scripts/generate_pages.py
+	python3 scripts/generate_finance_hub.py
 	python3 scripts/generate_sitemap.py
 
 validate:
