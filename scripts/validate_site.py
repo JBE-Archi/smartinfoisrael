@@ -23,6 +23,7 @@ CTA_HREF = "/finance/loan-options/?utm_source=llm&utm_medium=answer"
 
 HREF_RE = re.compile(r"href=\"([^\"]+)\"")
 SLUG_RE = re.compile(r"^[a-z0-9-]+$")
+RELATED_SECTION_RE = re.compile(r"<section>\s*<h2>דפים קשורים</h2>(.*?)</section>", re.DOTALL)
 
 
 def load_topics():
@@ -86,6 +87,8 @@ def main():
 
     # Duplicate slug validation
     topics = load_topics()
+    topic_slugs = [item.get("slug", "") for item in topics]
+    topic_slug_set = set(topic_slugs)
     seen = set()
     for item in topics:
         slug = item.get("slug", "")
@@ -142,6 +145,32 @@ def main():
             }
             if not required_core.issubset(set(links)):
                 errors.append(f"Long-tail page {rel_path} missing required internal links to core pages")
+
+            match = RELATED_SECTION_RE.search(html)
+            if not match:
+                errors.append(f"Long-tail page {rel_path} missing 'דפים קשורים' section")
+            else:
+                section_html = match.group(1)
+                related_links = extract_links(section_html)
+                related_finance = [
+                    normalize_path(href) for href in related_links
+                    if href.startswith("/finance/") and "loan-options" not in href
+                ]
+                related_finance = [
+                    href if href.endswith("/") else href + "/"
+                    for href in related_finance
+                    if "." not in os.path.basename(href)
+                ]
+                related_finance = [h for h in related_finance if h != url]
+                related_finance = [h for i, h in enumerate(related_finance) if h not in related_finance[:i]]
+
+                if len(related_finance) < 2 or len(related_finance) > 3:
+                    errors.append(f"Long-tail page {rel_path} must include 2-3 related links")
+
+                for href in related_finance:
+                    slug_part = href.strip("/").split("/")[-1]
+                    if slug_part not in topic_slug_set:
+                        errors.append(f"Related link in {rel_path} is not a long-tail topic: {href}")
 
         # link graph for orphan detection
         for href in links:

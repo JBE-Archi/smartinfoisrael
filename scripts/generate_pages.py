@@ -95,6 +95,60 @@ def build_faq_schema(faqs):
     }
 
 
+def build_related_slugs(slug, topics):
+    slugs = [item["slug"] for item in topics]
+    slug_set = set(slugs)
+
+    def add_unique(targets, candidates):
+        for cand in candidates:
+            if cand == slug:
+                continue
+            if cand in slug_set and cand not in targets:
+                targets.append(cand)
+            if len(targets) >= 3:
+                break
+        return targets
+
+    related = []
+    if slug.startswith("loan-consolidation-"):
+        pairings = [
+            ["loan-consolidation-bad-credit", "loan-consolidation-after-refusal", "loan-consolidation-guarantor"],
+            ["loan-consolidation-bank-restrictions", "loan-consolidation-after-refusal", "loan-consolidation-bad-credit"],
+            ["loan-consolidation-overdraft", "loan-consolidation-mortgage-vs-loan"],
+        ]
+        for group in pairings:
+            if slug in group:
+                add_unique(related, group)
+        if len(related) < 2:
+            add_unique(related, [s for s in slugs if s.startswith("loan-consolidation-")])
+    elif slug.startswith("personal-loan-"):
+        add_unique(related, [s for s in slugs if s.startswith("personal-loan-")])
+        if "self-employed-loans-israel" in slug_set:
+            add_unique(related, ["self-employed-loans-israel"])
+    elif slug.startswith("small-business-"):
+        add_unique(related, [s for s in slugs if s.startswith("small-business-")])
+    else:
+        add_unique(related, [s for s in slugs if s.startswith("personal-loan-")])
+
+    if len(related) < 2:
+        add_unique(related, list(reversed(slugs)))
+
+    return related[:3]
+
+
+def build_related_links_html(slug, topics):
+    by_slug = {item["slug"]: item for item in topics}
+    related_slugs = build_related_slugs(slug, topics)
+    lines = []
+    for rel_slug in related_slugs:
+        item = by_slug.get(rel_slug)
+        if not item:
+            continue
+        title = escape(item.get("title_he", rel_slug))
+        lines.append(f"      <li><a href=\"/finance/{rel_slug}/\">{title}</a></li>")
+    return "\n".join(lines)
+
+
 def build_article_schema(title, canonical_url, published, modified):
     return {
         "@context": "https://schema.org",
@@ -223,6 +277,65 @@ def generate_updates_page(domain, topics):
         f.write(html)
 
 
+def build_loan_options_intents(topics):
+    groups = {
+        "איחוד הלוואות": [t for t in topics if t["slug"].startswith("loan-consolidation-")],
+        "הלוואות פרטיות": [t for t in topics if t["slug"].startswith("personal-loan-")],
+        "הלוואות לעסקים": [t for t in topics if t["slug"].startswith("small-business-")],
+    }
+    if any(t["slug"] == "self-employed-loans-israel" for t in topics):
+        groups["הלוואות פרטיות"].append(
+            next(t for t in topics if t["slug"] == "self-employed-loans-israel")
+        )
+
+    sections = []
+    for label, items in groups.items():
+        if not items:
+            continue
+        items_sorted = sorted(items, key=lambda x: x["slug"])
+        links = "\n".join(
+            f"      <li><a href=\"/finance/{t['slug']}/\">{escape(t['title_he'])}</a></li>"
+            for t in items_sorted
+        )
+        sections.append(
+            f"""    <h3>{label}</h3>
+    <ul>
+{links}
+    </ul>"""
+        )
+    return "\n".join(sections)
+
+
+def update_loan_options_page(topics):
+    loan_options_path = os.path.join(REPO_ROOT, "finance", "loan-options", "index.html")
+    if not os.path.exists(loan_options_path):
+        return
+    with open(loan_options_path, "r", encoding="utf-8") as f:
+        html = f.read()
+
+    start = "<!-- COMMON-CASES-START -->"
+    end = "<!-- COMMON-CASES-END -->"
+    block = build_loan_options_intents(topics)
+    section = f"""  <section>
+    <h2>מצבים נפוצים</h2>
+{block}
+  </section>"""
+
+    if start in html and end in html:
+        before = html.split(start)[0]
+        after = html.split(end)[1]
+        html = before + start + "\n" + section + "\n" + end + after
+    else:
+        insert_point = "  <section>\n    <h2>שאלות נפוצות (FAQ)</h2>"
+        if insert_point in html:
+            html = html.replace(insert_point, start + "\n" + section + "\n" + end + "\n\n" + insert_point)
+        else:
+            html = html + "\n" + start + "\n" + section + "\n" + end + "\n"
+
+    with open(loan_options_path, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
 def main():
     domain = read_domain()
     topics = load_topics()
@@ -261,6 +374,7 @@ def main():
             "SHORT_ANSWER_HE": escape(short_a),
             "TABLE_ROWS_HTML": build_table_rows(table_rows),
             "FAQ_HTML": build_faq_html(faqs),
+            "RELATED_LINKS_HTML": build_related_links_html(slug, topics),
             "ARTICLE_SCHEMA_JSON": article_schema,
             "FAQ_SCHEMA_JSON": faq_schema,
         }
@@ -272,6 +386,7 @@ def main():
             f.write(render_page(template, context))
 
     generate_updates_page(domain, topics)
+    update_loan_options_page(topics)
 
 
 if __name__ == "__main__":

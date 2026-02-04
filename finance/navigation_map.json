@@ -39,10 +39,13 @@
       "type": "core"
     },
     "/finance/loan-consolidation-after-refusal/": {
-      "incoming_count": 4,
+      "incoming_count": 9,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
+        "/finance/loan-consolidation-bad-credit/",
+        "/finance/loan-consolidation-bank-restrictions/",
+        "/finance/loan-consolidation-guarantor/",
         "/finance/loan-consolidation-israel/",
         "/finance/loan-options/",
         "/finance/personal-loans-israel/"
@@ -51,10 +54,13 @@
       "type": "long-tail"
     },
     "/finance/loan-consolidation-bad-credit/": {
-      "incoming_count": 3,
+      "incoming_count": 7,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
+        "/finance/loan-consolidation-after-refusal/",
+        "/finance/loan-consolidation-bank-restrictions/",
+        "/finance/loan-consolidation-guarantor/",
         "/finance/loan-consolidation-israel/",
         "/finance/loan-options/",
         "/finance/personal-loans-israel/"
@@ -63,10 +69,12 @@
       "type": "long-tail"
     },
     "/finance/loan-consolidation-bank-restrictions/": {
-      "incoming_count": 3,
+      "incoming_count": 8,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
+        "/finance/loan-consolidation-after-refusal/",
+        "/finance/loan-consolidation-bad-credit/",
         "/finance/loan-consolidation-israel/",
         "/finance/loan-options/",
         "/finance/personal-loans-israel/"
@@ -75,10 +83,12 @@
       "type": "long-tail"
     },
     "/finance/loan-consolidation-guarantor/": {
-      "incoming_count": 2,
+      "incoming_count": 5,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
+        "/finance/loan-consolidation-after-refusal/",
+        "/finance/loan-consolidation-bad-credit/",
         "/finance/loan-consolidation-israel/",
         "/finance/loan-options/",
         "/finance/personal-loans-israel/"
@@ -103,11 +113,14 @@
       "type": "core"
     },
     "/finance/loan-consolidation-mortgage-vs-loan/": {
-      "incoming_count": 2,
+      "incoming_count": 6,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
+        "/finance/loan-consolidation-after-refusal/",
+        "/finance/loan-consolidation-bank-restrictions/",
         "/finance/loan-consolidation-israel/",
+        "/finance/loan-consolidation-overdraft/",
         "/finance/loan-options/",
         "/finance/personal-loans-israel/"
       ],
@@ -115,11 +128,14 @@
       "type": "long-tail"
     },
     "/finance/loan-consolidation-overdraft/": {
-      "incoming_count": 4,
+      "incoming_count": 5,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
+        "/finance/loan-consolidation-after-refusal/",
+        "/finance/loan-consolidation-bank-restrictions/",
         "/finance/loan-consolidation-israel/",
+        "/finance/loan-consolidation-mortgage-vs-loan/",
         "/finance/loan-options/",
         "/finance/personal-loans-israel/"
       ],
@@ -132,38 +148,48 @@
         "/finance/",
         "/finance/business-loans-israel/",
         "/finance/loan-consolidation-after-refusal/",
+        "/finance/loan-consolidation-bad-credit/",
+        "/finance/loan-consolidation-bank-restrictions/",
+        "/finance/loan-consolidation-guarantor/",
         "/finance/loan-consolidation-israel/",
+        "/finance/loan-consolidation-mortgage-vs-loan/",
         "/finance/loan-consolidation-overdraft/",
         "/finance/loan-options/",
+        "/finance/personal-loan-nonbank/",
         "/finance/personal-loan-salaried-israel/",
         "/finance/personal-loans-israel/",
         "/finance/self-employed-loans-israel/",
         "/finance/small-business-cashflow-loan/",
+        "/finance/small-business-loan-no-collateral/",
         "/finance/updates/"
       ],
       "title": "השוואת אפשרויות הלוואה בישראל - סקירה ניטרלית",
       "type": "loan-options"
     },
     "/finance/personal-loan-nonbank/": {
-      "incoming_count": 3,
+      "incoming_count": 8,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
         "/finance/loan-consolidation-israel/",
         "/finance/loan-options/",
-        "/finance/personal-loans-israel/"
+        "/finance/personal-loan-salaried-israel/",
+        "/finance/personal-loans-israel/",
+        "/finance/self-employed-loans-israel/"
       ],
       "title": "הלוואה פרטית חוץ-בנקאית - מה לבדוק לפני שמחליטים",
       "type": "long-tail"
     },
     "/finance/personal-loan-salaried-israel/": {
-      "incoming_count": 4,
+      "incoming_count": 6,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
         "/finance/loan-consolidation-israel/",
         "/finance/loan-options/",
-        "/finance/personal-loans-israel/"
+        "/finance/personal-loan-nonbank/",
+        "/finance/personal-loans-israel/",
+        "/finance/self-employed-loans-israel/"
       ],
       "title": "הלוואה פרטית לשכירים בישראל - מדריך ניטרלי",
       "type": "long-tail"
@@ -183,37 +209,45 @@
       "type": "core"
     },
     "/finance/self-employed-loans-israel/": {
-      "incoming_count": 4,
+      "incoming_count": 6,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
         "/finance/loan-consolidation-israel/",
         "/finance/loan-options/",
+        "/finance/personal-loan-nonbank/",
+        "/finance/personal-loan-salaried-israel/",
         "/finance/personal-loans-israel/"
       ],
       "title": "הלוואה לעצמאים בישראל - דף עומק ניטרלי",
       "type": "long-tail"
     },
     "/finance/small-business-cashflow-loan/": {
-      "incoming_count": 4,
+      "incoming_count": 5,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
         "/finance/loan-consolidation-israel/",
+        "/finance/loan-consolidation-mortgage-vs-loan/",
         "/finance/loan-options/",
-        "/finance/personal-loans-israel/"
+        "/finance/personal-loan-nonbank/",
+        "/finance/personal-loans-israel/",
+        "/finance/small-business-loan-no-collateral/"
       ],
       "title": "הלוואה לעסק קטן לתזרים - מדריך ניטרלי",
       "type": "long-tail"
     },
     "/finance/small-business-loan-no-collateral/": {
-      "incoming_count": 3,
+      "incoming_count": 5,
       "outgoing": [
         "/finance/",
         "/finance/business-loans-israel/",
         "/finance/loan-consolidation-israel/",
+        "/finance/loan-consolidation-mortgage-vs-loan/",
         "/finance/loan-options/",
-        "/finance/personal-loans-israel/"
+        "/finance/personal-loan-nonbank/",
+        "/finance/personal-loans-israel/",
+        "/finance/small-business-cashflow-loan/"
       ],
       "title": "הלוואה לעסק קטן בלי בטחונות - אפשרויות וסיכונים",
       "type": "long-tail"
