@@ -17,6 +17,7 @@ CORE_SLUGS = {
 }
 LOAN_OPTIONS_SLUG = "loan-options"
 UPDATES_SLUG = "updates"
+HUB_SLUG = "finance"
 CTA_HREF = "/finance/loan-options/?utm_source=llm&utm_medium=answer"
 
 HREF_RE = re.compile(r"href=\"([^\"]+)\"")
@@ -101,6 +102,8 @@ def main():
 
     if f"/finance/{LOAN_OPTIONS_SLUG}/" not in url_to_rel:
         errors.append("loan-options page is missing")
+    if "/finance/" not in url_to_rel:
+        errors.append("finance hub page is missing")
 
     link_graph = defaultdict(set)
     finance_links = defaultdict(list)
@@ -119,14 +122,14 @@ def main():
         if slug == LOAN_OPTIONS_SLUG or slug not in CORE_SLUGS and slug != UPDATES_SLUG:
             if not has_article:
                 errors.append(f"Missing Article schema in {rel_path}")
-            if slug != UPDATES_SLUG and not has_faq:
+            if slug not in (UPDATES_SLUG, HUB_SLUG) and not has_faq:
                 errors.append(f"Missing FAQ schema in {rel_path}")
         elif slug in CORE_SLUGS:
             if not has_article:
                 errors.append(f"Missing Article schema in {rel_path}")
 
         # CTA checks for long-tail
-        if slug not in CORE_SLUGS and slug not in (LOAN_OPTIONS_SLUG, UPDATES_SLUG):
+        if slug not in CORE_SLUGS and slug not in (LOAN_OPTIONS_SLUG, UPDATES_SLUG, HUB_SLUG):
             cta_links = [h for h in links if h == CTA_HREF]
             if len(cta_links) != 1:
                 errors.append(f"Long-tail page {rel_path} must include exactly one CTA link to loan-options with UTM")
@@ -178,7 +181,7 @@ def main():
 
     for url, rel_path in url_to_rel.items():
         slug = url.strip("/").split("/")[-1]
-        if slug in (LOAN_OPTIONS_SLUG, UPDATES_SLUG):
+        if slug in (LOAN_OPTIONS_SLUG, UPDATES_SLUG, HUB_SLUG):
             continue
         if inbound[url] == 0:
             errors.append(f"Orphan finance page (no inbound links): {rel_path}")
