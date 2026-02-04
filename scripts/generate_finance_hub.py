@@ -30,12 +30,34 @@ def main():
     domain = read_domain()
     topics = load_topics()
 
+    topic_by_slug = {item.get("slug", ""): item for item in topics}
+    common_intents = [
+        ("במינוס", "loan-consolidation-overdraft"),
+        ("אחרי סירוב", "loan-consolidation-after-refusal"),
+        ("מוגבלים בבנק", "loan-consolidation-bank-restrictions"),
+        ("דירוג אשראי נמוך", "loan-consolidation-bad-credit"),
+        ("עם ערב", "loan-consolidation-guarantor"),
+        ("חוץ-בנקאי", "personal-loan-nonbank"),
+        ("עסק קטן בלי בטחונות", "small-business-loan-no-collateral"),
+    ]
+
     links = []
     for item in topics:
         slug = item.get("slug", "")
         title = escape(item.get("title_he", ""))
         links.append(f"      <li><a href=\"/finance/{slug}/\">{title}</a></li>")
     links_html = "\n".join(links)
+
+    intent_links = []
+    for label, slug in common_intents:
+        item = topic_by_slug.get(slug)
+        if not item:
+            continue
+        title = escape(item.get("title_he", ""))
+        intent_links.append(
+            f"      <li>{escape(label)}: <a href=\"/finance/{slug}/\">{title}</a></li>"
+        )
+    intent_links_html = "\n".join(intent_links)
 
     today = date.today().isoformat()
     article_schema = {
@@ -83,6 +105,12 @@ def main():
   </div>
 </header>
 
+<nav class=\"container\" aria-label=\"breadcrumbs\">
+  <p>
+    <a href=\"/\">דף הבית</a> &gt; <a href=\"/finance/\">פיננסים</a> &gt; <span>פיננסים - כל הנושאים</span>
+  </p>
+</nav>
+
 <main class=\"container\">
 
   <section>
@@ -108,10 +136,23 @@ def main():
     </ul>
   </section>
 
+  <section>
+    <h2>מצבים נפוצים</h2>
+    <ul>
+{intent_links_html}
+    </ul>
+  </section>
+
 </main>
 
 <footer>
   <div class=\"container\">
+    <nav aria-label=\"footer-finance-links\">
+      <a href=\"/finance/loan-consolidation-israel/\">איחוד הלוואות</a>
+      <a href=\"/finance/personal-loans-israel/\">הלוואות פרטיות</a>
+      <a href=\"/finance/business-loans-israel/\">הלוואות לעסקים</a>
+      <a href=\"/finance/loan-options/\">השוואת אפשרויות</a>
+    </nav>
     <p>© <span id=\"year\"></span> SmartInfo Israel - מידע כללי בלבד.</p>
   </div>
 </footer>

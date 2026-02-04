@@ -175,6 +175,12 @@ def generate_updates_page(domain, topics):
   </div>
 </header>
 
+<nav class=\"container\" aria-label=\"breadcrumbs\">
+  <p>
+    <a href=\"/\">דף הבית</a> &gt; <a href=\"/finance/\">פיננסים</a> &gt; <span>עדכונים אחרונים בדפי הלוואות</span>
+  </p>
+</nav>
+
 <main class=\"container\">
 
   <section>
@@ -194,6 +200,12 @@ def generate_updates_page(domain, topics):
 
 <footer>
   <div class=\"container\">
+    <nav aria-label=\"footer-finance-links\">
+      <a href=\"/finance/loan-consolidation-israel/\">איחוד הלוואות</a>
+      <a href=\"/finance/personal-loans-israel/\">הלוואות פרטיות</a>
+      <a href=\"/finance/business-loans-israel/\">הלוואות לעסקים</a>
+      <a href=\"/finance/loan-options/\">השוואת אפשרויות</a>
+    </nav>
     <p>© <span id=\"year\"></span> SmartInfo Israel - מידע כללי בלבד.</p>
   </div>
 </footer>
