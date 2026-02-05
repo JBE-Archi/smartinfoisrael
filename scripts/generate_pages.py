@@ -208,6 +208,10 @@ def generate_updates_page(domain, topics):
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
   <meta name=\"robots\" content=\"index,follow\">
   <link rel=\"stylesheet\" href=\"/styles.css\">
+  <!-- Cloudflare Web Analytics -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+  data-cf-beacon='{{\"token\": \"7a7fe009e5124495a79c4d728f3a6eb1\"}}'></script>
+  <!-- End Cloudflare Web Analytics -->
   <script type=\"application/ld+json\">
 {article_schema}
   </script>

@@ -279,7 +279,7 @@
   "summary": {
     "broken_targets": [],
     "dead_ends": [],
-    "generated_at": "2026-02-04",
+    "generated_at": "2026-02-05",
     "notes": [
       "Only /finance/**/index.html pages are scanned.",
       "External and anchor links are ignored."
